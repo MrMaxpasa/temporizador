@@ -1,28 +1,18 @@
-import React from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
-//create your first component
-const Home = () => {
+function Temporizador({ segundos }) {
+	const hrs = Math.floor(segundos / 3600);
+	const mins = Math.floor((segundos % 3600) / 60);
+	const secs = segundos % 60;
+	const format = (n) => String(n).padStart(2, '0');
 	return (
-		<div className="text-center">
-            
-
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
+    	<div className="temporizador">
+			<span className="digito">{format(hrs)}</span>
+			<span className="separador">:</span>
+			<span className="digito">{format(mins)}</span>
+			<span className="separador">:</span>
+			<span className="digito">{format(secs)}</span>
+    	</div>
 	);
-};
-
-export default Home;
+}
+export default Temporizador;

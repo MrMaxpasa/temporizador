@@ -9,10 +9,22 @@ import "bootstrap"
 import '../styles/index.css'
 
 // components
-import Home from './components/Home';
+import Temporizador from './components/Home';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Home/>
-  </React.StrictMode>,
-)
+document.addEventListener('DOMContentLoaded', () => {
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    let contador = 0;
+
+    const renderizar = () => {
+        root.render(<Temporizador segundos={contador} />);
+    };
+
+    // Render inicial
+    renderizar();
+
+    // Cada segundo, incrementamos y volvemos a renderizar
+    setInterval(() => {
+        contador += 1;
+        renderizar();
+    }, 1000);
+});

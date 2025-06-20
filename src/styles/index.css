@@ -1,11 +1,180 @@
-/* 
+/* === Asegurar que ocupe toda la pantalla y centrar el temporizador === */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #121212;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+/* === Variables de tema y colores === */
+:root {
+    --bg-dark: #1c1c1c;
+    --bg-light: #2a2a2a;
+    --fg: #fafafa;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --highlight: rgba(255, 255, 255, 0.1);
+    --midline: rgba(0, 0, 0, 0.2);
+}
 
-*/
+/* === Contenedor principal === */
+.temporizador {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Roboto Mono", monospace;
+    perspective: 1200px;
+}
+
+/* === Separadores “:” === */
+.separador {
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--fg);
+    user-select: none;
+}
+
+/* === Tarjetas/dígitos === */
+.digito {
+    position: relative;
+    width: 4rem;
+    height: 5rem;
+    background: linear-gradient(to bottom, var(--bg-light), var(--bg-dark));
+    color: var(--fg);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 5rem;
+    text-align: center;
+    border-radius: 0.4rem;
+    box-shadow:
+        0 4px 8px var(--shadow),
+        inset 0 1px 0 var(--highlight);
+    transform-style: preserve-3d;
+    /* ocultamos lo que sobresalga en el plegado */
+    overflow: hidden;
+    /* para que no se vea el reverso del elemento */
+    backface-visibility: hidden;
+}
+
+/* Línea de separación central */
+.digito::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--midline);
+    pointer-events: none;
+}
+
+/* Superposición de sombras para realismo */
+.digito::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.15) 0%,
+            transparent 15%,
+            transparent 85%,
+            rgba(0, 0, 0, 0.15) 100%);
+    border-radius: 0.4rem;
+}
+
+/* --- Contenedor del dígito flip --- */
+.flip-unit-container {
+    position: relative;
+    width: 4rem;
+    height: 5rem;
+    perspective: 1000px;
+}
+
+/* Mitades estáticas */
+.upper-card,
+.lower-card {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    background: linear-gradient(to bottom, var(--bg-light), var(--bg-dark));
+    color: var(--fg);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 2.5rem;
+    /* la mitad de 5rem */
+    text-align: center;
+    border-radius: 0.4rem;
+}
+
+.upper-card {
+    top: 0;
+    border-bottom: 1px solid var(--midline);
+}
+
+.lower-card {
+    bottom: 0;
+    border-top: 1px solid var(--midline);
+}
+
+/* Flaps animados */
+.first-flap,
+.second-flap {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.first-flap {
+    top: 0;
+    transform-origin: bottom;
+    animation: fold 0.5s forwards;
+}
+
+.second-flap {
+    bottom: 0;
+    transform-origin: top;
+    animation: unfold 0.5s 0.5s forwards;
+}
+
+/* Texto interno de los flaps */
+.first-flap .front,
+.second-flap .back {
+    position: absolute;
+    width: 100%;
+    height: 200%;
+    /* doble altura para centrar el texto */
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+/* Keyframes */
+@keyframes fold {
+    0% {
+        transform: rotateX(0deg);
+    }
+
+    100% {
+        transform: rotateX(-90deg);
+    }
+}
+
+@keyframes unfold {
+    0% {
+        transform: rotateX(90deg);
+    }
+
+    100% {
+        transform: rotateX(0deg);
+    }
+}
