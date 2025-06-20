@@ -1,30 +1,28 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-//Bootstrap
+// Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap"
+import "bootstrap";
 
-// index.css'
-import '../styles/index.css'
-
-// components
-import Temporizador from './components/Home';
+// Componente principal
+import Home from './components/Home.jsx';
+import '../styles/index.css';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    let contador = 0;
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  let contador = 0;
 
-    const renderizar = () => {
-        root.render(<Temporizador segundos={contador} />);
-    };
+  const renderizar = () => {
+    root.render(<Home segundos={contador} />);
+  };
 
-    // Render inicial
+  // Render inicial
+  renderizar();
+
+  // Cada segundo incrementa y renderiza de nuevo
+  setInterval(() => {
+    contador += 1;
     renderizar();
-
-    // Cada segundo, incrementamos y volvemos a renderizar
-    setInterval(() => {
-        contador += 1;
-        renderizar();
-    }, 1000);
+  }, 1000);
 });
