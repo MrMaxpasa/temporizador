@@ -15,7 +15,7 @@ function Temporizador({ segundos }) {
 			<span className="separador">:</span>
 			<span className="digito">{format(secs)}</span>
     	</div>
-  );
+);
 }
 
 export default Temporizador;
