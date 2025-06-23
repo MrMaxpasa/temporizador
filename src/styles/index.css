@@ -3,10 +3,15 @@ html, body {
   height: 100%;
   width: 100%;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #121212;
+  overflow: hidden;
+}
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* === Variables de tema y colores === */
@@ -98,20 +103,29 @@ button:active {
 
 /* bg */
 .particles-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
 }
 /* end bg */
 
 /* === Contenedor principal === */
 .temporizador {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-family: "Roboto Mono", monospace;
-  font-size: 6rem;      /* controla el tamaño de todo el reloj */
-  perspective: 1200px;  /* profundidad 3D */
+  font-size: 6rem;
+  perspective: 1200px;
 }
 
 /* === Separadores “:” === */
