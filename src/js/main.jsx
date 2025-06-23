@@ -1,4 +1,4 @@
-// src/main.js
+// src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -15,9 +15,15 @@ let contador = 0;
 // Función que renderiza tu <Home> con el segundo actual
 function renderizar() {
   ReactDOM.render(
-    <Home segundos={contador} />,
+    <Home segundos={contador} onReset={resetTimer} />,
     document.getElementById('root')
   );
+}
+
+// Nueva función para resetear el contador
+function resetTimer() {
+  contador = 0;
+  renderizar();
 }
 
 // Render inicial en 00:00:00
