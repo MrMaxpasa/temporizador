@@ -1,28 +1,30 @@
+// src/main.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Bootstrap
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 
-// Componente principal
+
 import Home from './components/Home.jsx';
 import '../styles/index.css';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const root = ReactDOM.createRoot(document.getElementById('root'));
-  let contador = 0;
+let contador = 0;
 
-  const renderizar = () => {
-    root.render(<Home segundos={contador} />);
-  };
+// Función que renderiza tu <Home> con el segundo actual
+function renderizar() {
+  ReactDOM.render(
+    <Home segundos={contador} />,
+    document.getElementById('root')
+  );
+}
 
-  // Render inicial
+// Render inicial en 00:00:00
+renderizar();
+
+// Cada segundo incrementa y vuelve a renderizar
+setInterval(() => {
+  contador += 1;
   renderizar();
-
-  // Cada segundo incrementa y renderiza de nuevo
-  setInterval(() => {
-    contador += 1;
-    renderizar();
-  }, 1000);
-});
+}, 1000);

@@ -1,21 +1,23 @@
-import React from "react";
+import React from 'react';
+import FlipDigit from './FlipDigit';
+import '../../styles/index.css'; // Asegúrate de que la ruta apunte a tu CSS de animación
 
-function Temporizador({ segundos }) {
-	const hrs = Math.floor(segundos / 3600);
-	const mins = Math.floor((segundos % 3600) / 60);
-	const secs = segundos % 60;
+export default function Home({ segundos }) {
+  // Calcula horas, minutos y segundos a partir de "segundos"
+  const hrs = Math.floor(segundos / 3600);
+  const mins = Math.floor((segundos % 3600) / 60);
+  const secs = segundos % 60;
 
-	const format = (n) => String(n).padStart(2, '0');
+  // Formatea con dos dígitos ("5" → "05")
+  const fmt = n => String(n).padStart(2, '0');
 
-	return (
-    	<div className="temporizador">
-			<span className="digito">{format(hrs)}</span>
-			<span className="separador">:</span>
-			<span className="digito">{format(mins)}</span>
-			<span className="separador">:</span>
-			<span className="digito">{format(secs)}</span>
-    	</div>
-);
+  return (
+    <div className="temporizador">
+      <FlipDigit value={fmt(hrs)} />
+      <span className="separador">:</span>
+      <FlipDigit value={fmt(mins)} />
+      <span className="separador">:</span>
+      <FlipDigit value={fmt(secs)} />
+    </div>
+  );
 }
-
-export default Temporizador;

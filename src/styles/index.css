@@ -10,12 +10,12 @@ html, body {
 
 /* === Variables de tema y colores === */
 :root {
-  --bg-dark: #1c1c1c;         /* fondo de cada tarjeta */
-  --bg-light: #2a2a2a;        /* degradado superior */
-  --fg: #fafafa;             /* color del número */
-  --shadow: rgba(0, 0, 0, 0.5); /* sombra principal */
-  --highlight: rgba(255, 255, 255, 0.1); /* iluminación interior */
-  --midline: rgba(0, 0, 0, 0.2); /* línea de separación */
+  --bg-dark: #1c1c1c;
+  --bg-light: #2a2a2a;
+  --fg: #fafafa;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --highlight: rgba(255, 255, 255, 0.1);
+  --midline: rgba(0, 0, 0, 0.2);
 }
 
 /* === Contenedor principal === */
@@ -24,7 +24,8 @@ html, body {
   align-items: center;
   gap: 0.5rem;
   font-family: "Roboto Mono", monospace;
-  perspective: 1200px;
+  font-size: 6rem;      /* controla el tamaño de todo el reloj */
+  perspective: 1200px;  /* profundidad 3D */
 }
 
 /* === Separadores “:” === */
@@ -35,24 +36,25 @@ html, body {
   user-select: none;
 }
 
-/* === Tarjetas/dígitos === */
+/* === Tarjetas/dígitos (un único bloque) === */
 .digito {
   position: relative;
-  width: 4rem;
-  height: 5rem;
+  width: 1.2em;             /* ancho = altura de font-size */
+  height: 1em;            /* altura = font-size */
+  margin: 0 0.05em;
   background: linear-gradient(to bottom, var(--bg-light), var(--bg-dark));
   color: var(--fg);
-  font-size: 3rem;
+  font-size: 5rem;
   font-weight: 700;
-  line-height: 5rem;
+  line-height: 1em;
   text-align: center;
   border-radius: 0.4rem;
   box-shadow:
-    0 4px 8px var(--shadow),       /* sombra exterior */
-    inset 0 1px 0 var(--highlight); /* iluminación interior */
+    0 4px 8px var(--shadow),
+    inset 0 1px 0 var(--highlight);
   transform-style: preserve-3d;
   transform-origin: top center;
-  transition: transform 0.6s ease-in-out;
+  
 }
 
 /* Línea de separación central */
@@ -83,4 +85,119 @@ html, body {
   border-radius: 0.4rem;
 }
 
-/* ---------- */
+/* === Caras Superior/Inferior: recortadas al 50% === */
+.digito .current,
+.digito .next {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+.digito .current {
+  top: 0;
+  transform-origin: bottom;
+  border-bottom: 1px solid var(--midline);
+}
+
+.digito .next {
+  bottom: 0;
+  transform-origin: top;
+  border-top: 1px solid var(--midline);
+}
+
+/* === Inner para desplazar la mitad inferior === */
+.digito .inner {
+  position: relative;
+  width: 100%;
+  line-height: 1em;
+  text-align: center;
+}
+
+.digito .next .inner {
+  top: -100%;
+}
+
+
+
+
+/* Contenedor con perspectiva */
+.digito {
+  position: relative;
+  display: inline-block;
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+/* Capa estática completa (valor previo) */
+.digito > span.base {
+  position: relative;
+  z-index: 1;
+}
+
+/* Overlay semitransparente en la mitad inferior durante el flip */
+.digito.flipping > span.base::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;               /* solo la mitad inferior */
+  background: rgba(0, 0, 0, 0.122); /* ajusta la opacidad al gusto */
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Ambas mitades animadas: top (current) y bottom (next) */
+.digito > span.current,
+.digito > span.next {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;       /* solo mitad de la altura */
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+/* Mitad superior plegable */
+.digito > span.current {
+  top: 0;
+  z-index: 3;
+}
+.digito > span.current .inner {
+  display: block;
+  height: 200%;          /* duplica la altura para incluir todo el dígito */
+  transform-origin: bottom;
+}
+
+/* Mitad inferior desplegable */
+.digito > span.next {
+  bottom: 0;
+  z-index: 4;
+}
+.digito > span.next .inner {
+  display: block;
+  height: 200%;
+  transform-origin: top;
+  transform: rotateX(90deg); /* oculto inicialmente */
+}
+
+/* Animaciones durante el flip */
+.digito.flipping .current .inner {
+  animation: fold   0.2s forwards ease-in;
+}
+.digito.flipping .next .inner {
+  animation: unfold 0.2s forwards ease-out;
+}
+
+@keyframes fold {
+  from { transform: rotateX(0deg); }
+  to   { transform: rotateX(-90deg); }
+}
+@keyframes unfold {
+  from { transform: rotateX(90deg); }
+  to   { transform: rotateX(0deg); }
+}
+
