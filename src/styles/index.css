@@ -41,7 +41,7 @@ html, body {
   position: relative;
   width: 1.2em;             /* ancho = altura de font-size */
   height: 1em;            /* altura = font-size */
-  margin: 0 0.05em;
+  
   background: linear-gradient(to bottom, var(--bg-light), var(--bg-dark));
   color: var(--fg);
   font-size: 5rem;
@@ -145,7 +145,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 50%;               /* solo la mitad inferior */
-  background: rgba(0, 0, 0, 0.122); /* ajusta la opacidad al gusto */
+  background: rgba(0, 0, 0, 0.121); /* ajusta la opacidad al gusto */
   pointer-events: none;
   z-index: 2;
 }
